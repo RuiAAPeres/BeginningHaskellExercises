@@ -18,3 +18,8 @@ exercise3 :: [a] -> Bool
 exercise3 [] = False
 exercise3 (_:[]) = True
 exercise3 x = False
+
+-- 4. Write an expression that concatenates two lists given inside another lists. For example, it should return "abcde" for ["abc","de"].
+
+exercise4 :: [[a]] -> [a] 
+exercise4 (x:y:[]) = x ++ y
