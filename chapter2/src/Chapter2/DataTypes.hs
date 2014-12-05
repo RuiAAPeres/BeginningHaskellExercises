@@ -127,10 +127,6 @@ index' (x:xs) = let indexed@((n,_):_) = index xs
                 in  (n+1,x):indexed
 
 
-lenght :: [a] -> Int 
-lenght [] = 0
-lenght x:xs = 1 + lenght xs 
-
 
 ackermann :: Int -> Int -> Int 
 ackermann m n
@@ -167,19 +163,7 @@ specialClient (responsibility -> "Director") = True
 specialClient _ = False
 
 
-data ClientR = GovOrgR  { clientRName :: String }
-             | CompanyR { clientRName :: String
-                        , companyId :: Integer
-                        , person :: PersonR
-                        , duty :: String }
-             | IndividualR { person :: PersonR }
-             deriving Show
 
-data PersonR = PersonR { firstName :: String
-                       , lastName :: String
-                       } deriving Show
-
-greet IndividualR { person = PersonR { firstName } } = "Hi, " ++ firstName
-greet CompanyR    { clientRName }                    = "Hello, " ++ clientRName
-greet GovOrgR     { }                                = "Welcome"
+filterOne :: (Num a, Eq a) => [a] -> [a]
+filterOne x = filter (\y -> y == 1) x
 
