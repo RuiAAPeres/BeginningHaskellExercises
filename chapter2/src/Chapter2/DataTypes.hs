@@ -1,3 +1,6 @@
+{-# LANGUAGE ViewPatterns #-}
+{-# LANGUAGE NamedFieldPuns #-}
+
 module Chapter2.DataTypes where
 
 data Client = GovOrg String
@@ -18,19 +21,6 @@ data Gender = Male
 			deriving Show
 
 data TimeMachine = TimeMachine String Float
-
-
-clientName :: Client -> String 
-clientName client = case client of
-				GovOrg name 				-> name 
-				Company name _ _ _ -> name 
-				Individual person _ 		-> 
-					case person of Person fName lName _ -> fName ++ " " ++ lName
-
-companyName :: Client -> Maybe String
-companyName client = case client of
-						Company name _ _ _ -> Just name 
-						_ 				   -> Nothing
 
 
 
@@ -81,7 +71,7 @@ ifibonacci n = if n < 0
 ifibonacci' n | n < 0 = Nothing
 ifibonacci' 0 = Just 0
 ifibonacci' 1 = Just 1
-ifibonacci'  n | otherwise = let (Just f1, Just f2) = (ifibonacci' (n-1), ifibonacci' (n-2))
+ifibonacci' n | otherwise = let (Just f1, Just f2) = (ifibonacci' (n-1), ifibonacci' (n-2))
                            in Just (f1 + f2)
 
 ifibonacci''  n
@@ -91,4 +81,55 @@ ifibonacci''  n
 			| otherwise = let (Just f1, Just f2) = (ifibonacci'' (n-1), ifibonacci'' (n-2))
                            in Just (f1 + f2)
 
+
+ackermann :: Int -> Int -> Int 
+ackermann m n
+			| m == 0 		  = n + 1
+			| m > 0 && n == 0 = ackermann (m - 1) 1
+			| otherwise       = ackermann (m - 1) (ackermann m (n-1))
+
+
+zip' :: [(a,a)] -> [(a,a)]
+zip' [] = []
+zip' (_:[]) = zip' []
+zip' ((x,y):(x',y'):xs) = (x,x'):(y,y'): zip' xs
+
+
+clientName :: Client -> String 
+clientName client = case client of
+				GovOrg name 				-> name 
+				Company name _ _ _ -> name 
+				Individual person _ 		-> 
+					case person of Person fName lName _ -> fName ++ " " ++ lName
+
+companyName :: Client -> Maybe String
+companyName client = case client of
+						Company name _ _ _ -> Just name 
+						_ 				   -> Nothing
+
+responsibility :: Client -> String
+responsibility (Company _ _ _ r) = r
+responsibility _                 = "Unknown"
+
+specialClient :: Client -> Bool
+specialClient (clientName -> "Mr. Alejandro") = True 
+specialClient (responsibility -> "Director") = True 
+specialClient _ = False
+
+
+data ClientR = GovOrgR  { clientRName :: String }
+             | CompanyR { clientRName :: String
+                        , companyId :: Integer
+                        , person :: PersonR
+                        , duty :: String }
+             | IndividualR { person :: PersonR }
+             deriving Show
+
+data PersonR = PersonR { firstName :: String
+                       , lastName :: String
+                       } deriving Show
+
+greet IndividualR { person = PersonR { firstName } } = "Hi, " ++ firstName
+greet CompanyR    { clientRName }                    = "Hello, " ++ clientRName
+greet GovOrgR     { }                                = "Welcome"
 
