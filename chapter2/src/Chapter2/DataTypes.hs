@@ -1,4 +1,5 @@
 module Chapter2.DataTypes where
+import Data.Char
 
 data Client = GovOrg String
             | Company    String Integer String String
@@ -90,5 +91,54 @@ ifibonacci''  n
 			| n == 1 = Just 1
 			| otherwise = let (Just f1, Just f2) = (ifibonacci'' (n-1), ifibonacci'' (n-2))
                            in Just (f1 + f2)
+
+data ClientR = GovOrgR  { clientRName :: String }
+             | CompanyR { clientRName :: String
+                        , companyId :: Integer
+                        , person :: PersonR
+                        , duty :: String }
+             | IndividualR { person :: PersonR }
+             deriving Show
+
+
+data PersonR = PersonR { firstName :: String
+                       , lastName :: String
+                       } deriving Show
+
+
+
+nameInCapitals :: PersonR -> PersonR
+nameInCapitals p@(PersonR { firstName = initial:rest , lastName = _ }) = let newName = (toUpper initial):rest
+														  in  p { firstName = newName }
+nameInCapitals p@(PersonR { firstName = "" , lastName = x}) = p { firstName = x}
+
+
+data TimeMachineR = TimeMachineR { name :: String
+								 , price :: Float
+								 } deriving Show
+
+
+changeTimeMachinePrice :: TimeMachineR -> Float -> TimeMachineR
+changeTimeMachinePrice t p = t{price = p}
+
+maybeString (Just _) = "Just"
+maybeString Nothing  = "Nothing"
+
+
+index []     = []
+index [x]    = [(0,x)]
+index (x:xs) = let indexed@((n,_):_) = index xs
+               in (n+1,x):indexed
+
+
+index' []     = []
+index' [x]    = [(0,x)]
+index' (x:xs) = let indexed@((n,_):_) = index xs
+                in  (n+1,x):indexed
+
+
+lenght :: [a] -> Int 
+lenght [] = 0
+lenght x:xs = 1 + lenght xs 
 
 
