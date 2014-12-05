@@ -5,6 +5,7 @@ module Chapter2.DataTypes where
 import Data.Char
 
 data Client = GovOrg String
+			| JohnDoe String
             | Company    String Integer String String
 			| Individual Person Bool 
 			deriving Show	

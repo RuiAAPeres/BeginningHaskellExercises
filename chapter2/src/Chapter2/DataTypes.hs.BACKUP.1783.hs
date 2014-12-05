@@ -5,6 +5,7 @@ module Chapter2.DataTypes where
 import Data.Char
 
 data Client = GovOrg String
+			| JohnDoe String
             | Company    String Integer String String
 			| Individual Person Bool 
 			deriving Show	
@@ -163,6 +164,7 @@ specialClient (responsibility -> "Director") = True
 specialClient _ = False
 
 
+<<<<<<< HEAD
 
 filterOne :: (Num a, Eq a) => [a] -> [a]
 filterOne x = filter (\y -> y == 1) x
@@ -205,6 +207,11 @@ formula2 x = x * (2*x + 13)
 
 formula2' :: Integer -> Integer
 formula2' = uncurry (*) . ( ((+13) . (*2)) *** (id)) . duplicate
+=======
+
+filterOne :: (Num a, Eq a) => [a] -> [a]
+filterOne x = filter (\y -> y == 1) x
+>>>>>>> 45980a5... Added filterOne
 
 formula2'' :: Integer -> Integer
 formula2'' = (+13) . (*2)
