@@ -5,6 +5,7 @@ module Chapter2.DataTypes where
 import Data.Char
 
 data Client = GovOrg String
+			| JohnDoe String
             | Company    String Integer String String
 			| Individual Person Bool 
 			deriving Show	
@@ -127,10 +128,6 @@ index' (x:xs) = let indexed@((n,_):_) = index xs
                 in  (n+1,x):indexed
 
 
-lenght :: [a] -> Int 
-lenght [] = 0
-lenght x:xs = 1 + lenght xs 
-
 
 ackermann :: Int -> Int -> Int 
 ackermann m n
@@ -167,19 +164,48 @@ specialClient (responsibility -> "Director") = True
 specialClient _ = False
 
 
-data ClientR = GovOrgR  { clientRName :: String }
-             | CompanyR { clientRName :: String
-                        , companyId :: Integer
-                        , person :: PersonR
-                        , duty :: String }
-             | IndividualR { person :: PersonR }
-             deriving Show
 
-data PersonR = PersonR { firstName :: String
-                       , lastName :: String
-                       } deriving Show
+filterOne :: (Num a, Eq a) => [a] -> [a]
+filterOne x = filter (\y -> y == 1) x
 
-greet IndividualR { person = PersonR { firstName } } = "Hi, " ++ firstName
-greet CompanyR    { clientRName }                    = "Hello, " ++ clientRName
-greet GovOrgR     { }                                = "Welcome"
+filterNumber :: (Num a, Eq a) => [a] -> a -> [a]
+filterNumber x n = filter (\y -> y == n) x
 
+filterNotNumber :: (Num a, Eq a) => [a] -> a -> [a]
+filterNotNumber x n = filter (not . \y -> y == n) x
+
+filterGovOrgs :: [Client] -> [Client]
+filterGovOrgs l@(x:xs) = filter isGovOrg l
+				   where isGovOrg = \x -> case x of 
+				   						 GovOrg _ -> True
+				   						 _ -> False
+
+
+
+(***) :: (a -> b) -> (c -> d) -> ((a,c) -> (b,d))
+f *** g = \(x,y) -> (f x, g y)
+
+duplicate :: a -> (a,a)
+duplicate x = (x,x)
+
+square :: Num a => a -> a
+square n = (n*n)
+
+-- uncurry :: (a -> b -> c) -> (a,b) -> c
+-- uncurry f = \(x,y) -> f x y
+-- curry :: ((a,b) -> c) -> a -> b -> c
+-- curry f = \x y -> f (x,y)
+
+-- 3x + 7(x + 2)
+formula1 :: Integer -> Integer
+formula1 = uncurry (+) . ( ((*7) . (+2)) *** (*3) ) . duplicate
+
+
+formula2 :: Integer -> Integer 
+formula2 x = x * (2*x + 13)
+
+formula2' :: Integer -> Integer
+formula2' = uncurry (*) . ( ((+13) . (*2)) *** (id)) . duplicate
+
+formula2'' :: Integer -> Integer
+formula2'' = (+13) . (*2)
