@@ -71,24 +71,13 @@ partition' f x = partitionAcc x ([],[])
                                                  | otherwise = partitionAcc xs (a,(x:b))
                        partitionAcc [] (a,b) = (reverse a, reverse b)
 
-between :: a -> [a] -> [[a]]
-between i [] = [[i]]
-between i r@(x:xs) = (i : r) : map (x:) (between i xs)
 
-flatmap :: (a -> [b]) -> [a] -> [b]
-flatmap = (foldl [] (+)) . map 
 between :: a -> [a] -> [[a]]
 between i [] = [[i]]
 between i r@(x:xs) = [[i]++r] ++ map f (between i xs)
                      where f = (\n->[x] ++ n)
 
-permutation :: [a] -> [[a]]
-permutation [] = [[]]
-permutation r@(x:xs) = let z = permutation xs 
-                       in flatmap z (between x z) 
 
-  
-                      where perm = (permutation xs)
 elem' :: Eq a => a -> [a] -> Bool
 elem' i [] = False
 elem' i (x:xs) | i == x = True
