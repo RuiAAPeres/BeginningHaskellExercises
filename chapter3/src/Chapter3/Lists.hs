@@ -65,7 +65,18 @@ allFold = foldl (&&) True
 
 
 
+between :: a -> [a] -> [[a]]
+between i [] = [[i]]
+between i r@(x:xs) = (i : r) : map (x:) (between i xs)
 
+flatmap :: (a -> [b]) -> [a] -> [b]
+flatmap = (foldl [] (+)) . map 
 
+permutation :: [a] -> [[a]]
+permutation [] = [[]]
+permutation r@(x:xs) = let z = permutation xs 
+                       in flatmap z (between x z) 
 
+  
+                      where perm = (permutation xs)
 
