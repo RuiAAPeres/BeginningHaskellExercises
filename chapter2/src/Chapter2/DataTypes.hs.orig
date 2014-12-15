@@ -5,6 +5,7 @@ module Chapter2.DataTypes where
 import Data.Char
 
 data Client = GovOrg String
+			| JohnDoe String
             | Company    String Integer String String
 			| Individual Person Bool 
 			deriving Show	
@@ -210,7 +211,7 @@ formula2' = uncurry (*) . ( ((+13) . (*2)) *** (id)) . duplicate
 
 filterOne :: (Num a, Eq a) => [a] -> [a]
 filterOne x = filter (\y -> y == 1) x
->>>>>>> 45980a5be257c518e6507dd3de3b405bdacf0611
+>>>>>>> 45980a5... Added filterOne
 
 formula2'' :: Integer -> Integer
 formula2'' = (+13) . (*2)
