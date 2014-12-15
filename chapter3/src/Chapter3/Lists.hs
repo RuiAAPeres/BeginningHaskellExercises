@@ -75,25 +75,21 @@ between :: a -> [a] -> [[a]]
 between i [] = [[i]]
 between i r@(x:xs) = (i : r) : map (x:) (between i xs)
 
-flatmap :: (a -> [b]) -> [a] -> [b]
-flatmap = (foldl [] (+)) . map 
-between :: a -> [a] -> [[a]]
-between i [] = [[i]]
-between i r@(x:xs) = [[i]++r] ++ map f (between i xs)
-                     where f = (\n->[x] ++ n)
+nubBy' :: (a -> a -> Bool) -> [a] -> [a]
+nubBy' f l = nubByAcc l []
+             where nubByAcc [] _ = []
+                   nubByAcc (y:ys) xs  
+                              | elem_by f y xs = nubByAcc ys xs
+                              | otherwise = y : nubByAcc ys (y:xs)
 
-permutation :: [a] -> [[a]]
-permutation [] = [[]]
-permutation r@(x:xs) = let z = permutation xs 
-                       in flatmap z (between x z) 
+elem_by :: (a -> a -> Bool) -> a -> [a] -> Bool
+elem_by _  _ []         =  False
+elem_by eq y (x:xs)     =  y `eq` x || elem_by eq y xs
 
-  
-                      where perm = (permutation xs)
+
+
 elem' :: Eq a => a -> [a] -> Bool
-elem' i [] = False
-elem' i (x:xs) | i == x = True
-               | otherwise = elem' i xs
-
-
-
-
+elem' x l = case find (==x) l of
+                Just _ -> True
+                Nothing -> False
+                  
