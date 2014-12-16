@@ -1,3 +1,5 @@
+import Data.List
+
 data Person = Person { firstName :: String  
                      , lastName :: String 
                      } deriving (Show)   
@@ -27,4 +29,7 @@ checkFirstName'' :: [Person] -> Bool
 checkFirstName'' (x:xs) =  all (== (firstName x)) (map firstName xs)
 
 checkFirstName''' :: [Person] -> Bool
-checkFirstName''' (x:xs) = any (==  (firstName x)) $ map firstName xs
+checkFirstName''' (x:xs) = any (==  firstName x) $ map firstName xs
+
+checkFirstName'''' :: [Person] -> Bool
+checkFirstName'''' = (== 1) . length . nub . map firstName
