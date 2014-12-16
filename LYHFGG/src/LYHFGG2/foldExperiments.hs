@@ -17,3 +17,10 @@ checkFirstName l@((Person {firstName = n}):_) = checkFirstNameAcc n l
 											    	checkFirstNameAcc n ((Person {firstName = m}):ys)
 											    									 | n == m = True && checkFirstNameAcc n ys
 											    									 | otherwise = False
+
+checkFirstName' :: [Person] -> Bool
+checkFirstName' xs = let n = (firstName . head) xs
+						   in foldr (\x acc -> if (firstName x) == n then True && acc else False) True xs
+
+checkFirstName'' :: [Person] -> Bool
+checkFirstName'' (x:xs) =  all (== (firstName x)) (map firstName xs)
