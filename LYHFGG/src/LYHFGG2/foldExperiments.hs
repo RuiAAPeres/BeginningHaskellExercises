@@ -6,7 +6,7 @@ persons :: [Person]
 persons	= [
 			Person {firstName ="M", lastName ="Peres"},
 			Person {firstName ="M", lastName ="Peres"},
-			Person {firstName ="M", lastName ="Peres"}
+			Person {firstName ="Z", lastName ="Peres"}
 		  ]
 
 
@@ -22,5 +22,9 @@ checkFirstName' :: [Person] -> Bool
 checkFirstName' xs = let n = (firstName . head) xs
 						   in foldr (\x acc -> if (firstName x) == n then True && acc else False) True xs
 
+
 checkFirstName'' :: [Person] -> Bool
 checkFirstName'' (x:xs) =  all (== (firstName x)) (map firstName xs)
+
+checkFirstName''' :: [Person] -> Bool
+checkFirstName''' (x:xs) = any (==  (firstName x)) $ map firstName xs
