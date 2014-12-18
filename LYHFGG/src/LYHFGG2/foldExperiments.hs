@@ -45,3 +45,21 @@ sequenceA = foldr (liftA2 (:)) (pure [])
 
  
 
+data Foo a b = Foo a b
+
+newtype Pair b a = Pair { getPair :: (a,b) }
+
+instance Functor (Pair c) where  
+    fmap f (Pair (x,y)) = Pair (f x, y) 
+
+
+newtype CharList a = CharList { getCharList :: [a] }  
+
+instance Functor CharList where
+	fmap f (CharList xs) = CharList (fmap f xs)
+
+instance Applicative CharList where
+	pure x = CharList [x]
+	(CharList f) <*> (CharList g) = CharList ( f <*> g) 	
+
+
