@@ -1,4 +1,5 @@
 import Data.List
+import Control.Applicative
 
 data Person = Person { firstName :: String  
                      , lastName :: String 
@@ -28,8 +29,19 @@ checkFirstName' xs = let n = (firstName . head) xs
 checkFirstName'' :: [Person] -> Bool
 checkFirstName'' (x:xs) =  all (== (firstName x)) (map firstName xs)
 
+
+
 checkFirstName''' :: [Person] -> Bool
 checkFirstName''' (x:xs) = any (==  firstName x) $ map firstName xs
 
+
 checkFirstName'''' :: [Person] -> Bool
 checkFirstName'''' = (== 1) . length . nub . map firstName
+
+
+
+sequenceA :: Applicative f => [f a] -> f [a]
+sequenceA = foldr (liftA2 (:)) (pure [])
+
+ 
+
