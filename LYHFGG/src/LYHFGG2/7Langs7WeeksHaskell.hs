@@ -15,3 +15,10 @@ allEven'' = foldr (&&) True . map (even)
 reverse' :: [a] -> [a]
 reverse' [] = []
 reverse' (x:xs) = reverse' xs ++ [x]
+
+--- • Write a function that builds two-tuples with all possible combinations of two of the colors black, white, blue, yellow, and red. Note that you should include only one of (black, blue) and (blue, black).
+
+data Color = Black | White | Blue | Yellow | Red deriving(Enum,Show,Eq,Ord)
+
+colorCombination :: [(Color,Color)] 
+colorCombination = [(x,y) | x <- [Black ..], y <- [Black ..], x <= y, x /= y]
