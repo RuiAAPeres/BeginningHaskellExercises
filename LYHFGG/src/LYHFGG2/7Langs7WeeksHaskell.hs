@@ -6,3 +6,6 @@ allEven (x:xs) = even x && allEven xs
 
 allEven' :: [Int] -> Bool
 allEven' = and . map (even)
+
+allEven'' :: [Int] -> Bool
+allEven'' = foldr (&&) True . map (even)
