@@ -3,3 +3,6 @@
 allEven :: [Int] -> Bool
 allEven [] = True
 allEven (x:xs) = even x && allEven xs
+
+allEven' :: [Int] -> Bool
+allEven' = and . map (even)
