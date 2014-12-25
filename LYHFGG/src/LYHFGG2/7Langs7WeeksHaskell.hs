@@ -18,7 +18,10 @@ reverse' (x:xs) = reverse' xs ++ [x]
 
 --- • Write a function that builds two-tuples with all possible combinations of two of the colors black, white, blue, yellow, and red. Note that you should include only one of (black, blue) and (blue, black).
 
-data Color = Black | White | Blue | Yellow | Red deriving(Enum,Show,Eq,Ord)
+data Color = Black | White | Blue | Yellow | Red deriving(Enum,Show,Eq)
 
 colorCombination :: [(Color,Color)] 
-colorCombination = [(x,y) | x <- [Black ..], y <- [Black ..], x <= y, x /= y]
+colorCombination = [(x,y) | x <- [Black ..], y <- [x ..], x /= y]
+
+--- • Write a list comprehension to build a childhood multiplication table. The table would be a list of three-tuples where the first two are integers from 1–12 and the third is the product of the first two.
+
