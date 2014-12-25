@@ -25,3 +25,5 @@ colorCombination = [(x,y) | x <- [Black ..], y <- [x ..], x /= y]
 
 --- • Write a list comprehension to build a childhood multiplication table. The table would be a list of three-tuples where the first two are integers from 1–12 and the third is the product of the first two.
 
+multiplicationTable :: [(Int,Int,Int)]
+multiplicationTable = [(x,y,x*y) | x <-[1..12], y <- [1..12], x /= y]
